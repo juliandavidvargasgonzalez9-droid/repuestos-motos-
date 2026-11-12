@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rutamoto, repuestos para motos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Big+Shoulders+Display:ital,wght@1,800;1,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top">
+    <a class="logo" href="#">Rutamoto</a>
+    <div class="search">
+      <label class="sr" for="q">Buscar repuestos</label>
+      <input id="q" type="search" placeholder="Buscar: pastillas, cadena, bujía…" autocomplete="off">
+    </div>
+    <button id="cartBtn" class="btn cart-btn" aria-label="Abrir carrito">
+      Carrito <span id="cartCount" class="count">0</span>
+    </button>
+  </header>
+
+  <section class="hero">
+    <h1>El repuesto exacto para tu moto</h1>
+    <p>Elige marca y modelo y solo te mostramos lo que le queda.</p>
+    <div class="picker">
+      <label>Marca
+        <select id="brand"><option value="">Todas las marcas</option></select>
+      </label>
+      <label>Modelo
+        <select id="model" disabled><option value="">Elige una marca primero</option></select>
+      </label>
+      <button id="clearBike" class="btn ghost" type="button">Quitar filtro</button>
+    </div>
+    <p id="fitNote" class="fit-note" aria-live="polite"></p>
+  </section>
+
+  <main id="catalogo">
+    <div class="toolbar">
+      <div id="chips" class="chips" role="group" aria-label="Categorías"></div>
+      <label class="sort">Ordenar
+        <select id="sort">
+          <option value="relevancia">Relevancia</option>
+          <option value="menor">Precio: menor a mayor</option>
+          <option value="mayor">Precio: mayor a menor</option>
+        </select>
+      </label>
+    </div>
+    <p id="count" class="muted" aria-live="polite"></p>
+    <div id="grid" class="grid"></div>
+    <div id="empty" class="empty" hidden>
+      <h2>No encontramos repuestos con esos filtros</h2>
+      <p>Prueba con otra palabra, otra categoría o quita el filtro de moto.</p>
+      <button id="resetAll" class="btn">Ver todo el catálogo</button>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <p>Rutamoto, repuestos para motos. Prototipo de demostración: los productos, precios y pedidos son de ejemplo.</p>
+  </footer>
+
+  <div id="scrim" class="scrim" hidden></div>
+  <aside id="drawer" class="drawer" aria-label="Carrito de compras" aria-hidden="true">
+    <div class="drawer-head">
+      <h2>Tu carrito</h2>
+      <button id="closeCart" class="icon-btn" aria-label="Cerrar carrito">✕</button>
+    </div>
+    <ul id="cartItems" class="cart-items"></ul>
+    <div id="cartEmpty" class="empty small">
+      <p>Tu carrito está vacío. Agrega repuestos desde el catálogo.</p>
+    </div>
+    <div class="drawer-foot">
+      <dl class="totals">
+        <div><dt>Subtotal</dt><dd id="sub"></dd></div>
+        <div><dt>Envío</dt><dd id="ship"></dd></div>
+        <div class="grand"><dt>Total</dt><dd id="total"></dd></div>
+      </dl>
+      <p class="muted small-text">Envío gratis en compras desde $150.000.</p>
+      <button id="goCheckout" class="btn block">Ir a pagar</button>
+    </div>
+  </aside>
+
+  <dialog id="checkout">
+    <form id="checkoutForm" novalidate>
+      <h2>Datos de entrega</h2>
+      <label>Nombre completo
+        <input name="nombre" required minlength="3" autocomplete="name">
+      </label>
+      <div class="row">
+        <label>Correo
+          <input name="correo" type="email" required autocomplete="email">
+        </label>
+        <label>Celular
+          <input name="celular" type="tel" required pattern="[0-9 ]{7,13}" inputmode="numeric" autocomplete="tel">
+        </label>
+      </div>
+      <div class="row">
+        <label>Ciudad
+          <input name="ciudad" required autocomplete="address-level2">
+        </label>
+        <label>Dirección
+          <input name="direccion" required autocomplete="street-address">
+        </label>
+      </div>
+      <label>Forma de pago
+        <select name="pago" required>
+          <option value="">Elige una opción</option>
+          <option>Tarjeta de crédito o débito</option>
+          <option>Transferencia bancaria</option>
+          <option>Pago contra entrega</option>
+        </select>
+      </label>
+      <p id="formError" class="error" role="alert" hidden></p>
+      <p class="summary">Total a pagar: <strong id="checkoutTotal"></strong></p>
+      <div class="actions">
+        <button type="button" id="cancelCheckout" class="btn ghost">Volver al carrito</button>
+        <button type="submit" class="btn">Confirmar pedido</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="done">
+    <h2>¡Pedido confirmado!</h2>
+    <p>Tu número de pedido es <strong id="orderNo"></strong>.</p>
+    <p id="doneMsg" class="muted"></p>
+    <div class="actions"><button id="closeDone" class="btn">Seguir comprando</button></div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
